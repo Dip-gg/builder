@@ -16,13 +16,13 @@ function App() {
           lg: 16,
           xl: 20,
         },
-        breakpoints: {
-          xs: 500,
-          sm: 800,
-          md: 1000,
-          lg: 1200,
-          xl: 1400,
-        },
+        // breakpoints: {
+        //   xs: 500,
+        //   sm: 800,
+        //   md: 1000,
+        //   lg: 1200,
+        //   xl: 1400,
+        // },
         activeStyles: { transform: 'scale(0.95)' }
       }}>
       <div className="App">

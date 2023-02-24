@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navbar, Tooltip, UnstyledButton, createStyles, Stack } from '@mantine/core';
 import { IconArrowUpBar, IconBoxMargin, IconMessageChatbot, IconDownload } from '@tabler/icons-react';
+import useStore from '../hooks/useStore';
 
 const useStyles = createStyles((theme) => ({
     section: {
@@ -47,23 +48,44 @@ function NavbarLink({ icon, label, active, onClick }) {
     );
 }
 
-const mockdata = [
-    { icon: <IconArrowUpBar stroke={1.5}/>, label: 'Navbar' },
-    { icon: <IconBoxMargin stroke={1.5}/>, label: 'Div' },
-    { icon: <IconMessageChatbot stroke={1.5}/>, label: 'Bot' },
-    { icon: <IconDownload stroke={1.5}/>, label: 'Download' },
-];
 
 export default function Sidebar() {
     const { classes } = useStyles();
     const [active, setActive] = useState(2);
+    const { divs, setDivs } = useStore();
+
+    
+    const addDiv = () => {
+        const newDiv = {
+            id: divs?.length + 1,
+            backgroundColor: getRandomColor(),
+            text: `Div ${divs.length + 1}`,
+        };
+        setDivs([...divs, newDiv]);
+    };
+
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
+    const mockdata = [
+        { icon: <IconArrowUpBar stroke={1.5}/>, label: 'Navbar' },
+        { icon: <IconBoxMargin stroke={1.5}/>, label: 'Div', click:addDiv },
+        { icon: <IconMessageChatbot stroke={1.5}/>, label: 'Bot' },
+        { icon: <IconDownload stroke={1.5}/>, label: 'Download' },
+    ];
 
     const links = mockdata.map((link, index) => (
         <NavbarLink
             {...link}
             key={link.label}
             active={index === active}
-            onClick={() => setActive(index)}
+            onClick={link?.click}
         />
     ));
 
